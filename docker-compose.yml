@@ -1,0 +1,86 @@
+version: '3.7'
+services:
+#  db:
+#    image: mariadb:10.5
+#    container_name: ${DOCKER_NAME}_mariadb
+#    restart: always
+#    volumes:
+#      - ./mysql/initdb/:/docker-entrypoint-initdb.d
+#      - ./mysql/mariadb:/var/lib/mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_DATABASE=idoweb
+#      - MYSQL_USER=idoweb
+#      - MYSQL_PASSWORD=idoweb
+#    command:
+#      'mysqld --innodb-flush-method=fsync'
+#    ports:
+#      - '3306:3306'
+
+  php:
+    build:
+      context: ./php
+      args:
+        USER: ${USER}
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    container_name: ${DOCKER_NAME}_php-fpm
+    restart: always
+    volumes:
+      - ./web/:/var/www
+      - ./php/logs:/var/log
+      - ./php:/usr/local/etc/php:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '9000:9000'
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        USER: ${USER}
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    container_name: ${DOCKER_NAME}_nginx
+    restart: always
+    volumes:
+      - ./web:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf:/etc/nginx/conf:ro
+      - ./nginx/sites:/etc/nginx/sites
+      - ./nginx/sites-disabled:/etc/nginx/sites-disabled:ro
+      - ./nginx/sites-https:/etc/nginx/sites-https
+      - ./nginx/sites-https-disabled:/etc/nginx/sites-https-disabled:ro
+      - ./nginx/log:/var/log/nginx
+      - ./ssl:/etc/nginx/ssl
+      - /etc/localtime:/etc/localtime:ro
+    command: /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
+    ports:
+      - '80:8010'
+      - '443:8443'
+
+#  pma:
+#    image: phpmyadmin/phpmyadmin:5
+#    container_name: ${DOCKER_NAME}_pma
+#    restart: always
+#    depends_on:
+#      - php
+#      - db
+#    ports:
+#      - '8000:80'
+#
+#  adminer:
+#    image: adminer:4.7
+#    container_name: ${DOCKER_NAME}_adminer
+#    restart: always
+#    volumes:
+#      - ./web/adminer:/var/www/html
+#      - ./php:/usr/local/etc/php:ro
+#    depends_on:
+#      - php
+#      - db
+#    links:
+#      - php
+#      - nginx
+#    ports:
+#      - '8080:8080'

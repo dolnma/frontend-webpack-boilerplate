@@ -1,0 +1,35 @@
+2020/05/12 21:34:45 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/12 21:34:55 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:34:55 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:34:56 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:34:57 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:34:58 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:00 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:04 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:11 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:22 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:23 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:23 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:24 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:35:26 [emerg] 1#1: unknown "base" variable
+2020/05/12 21:37:03 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/12 21:38:35 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/12 21:38:36 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:36 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:37 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:38 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:39 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:41 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:45 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:38:52 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:39:05 [emerg] 1#1: bind() to 0.0.0.0:443 failed (13: Permission denied)
+2020/05/12 21:39:59 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/12 21:53:16 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/13 04:08:06 [notice] 16#16: signal process started
+2020/05/13 11:08:05 [notice] 26#26: signal process started
+2020/05/13 17:08:05 [notice] 36#36: signal process started
+2020/05/13 23:08:05 [notice] 46#46: signal process started
+2020/05/14 05:08:05 [notice] 56#56: signal process started
+2020/05/14 11:08:05 [notice] 66#66: signal process started
+2020/05/14 11:14:38 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)
+2020/05/14 12:41:17 [alert] 1#1: unlink() "/var/run/nginx.pid" failed (13: Permission denied)

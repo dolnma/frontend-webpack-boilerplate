@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Setting up https with a valid certificate for a local domain – and use it with Node.js</title>
+    
+    <meta name="theme-color" content="#089b52">
+    <link rel="manifest" href="https://justmarkup.com/manifest.webmanifest">
+    <link rel="icon" type="image/png" href="https://justmarkup.com/img/icons/icon-128x128.png" sizes="128x128">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://justmarkup.com/img/icons/icon-152x152.png">
+    <link rel="webmention" href="https://webmention.io/justmarkup.com/webmention">
+    <link rel="pingback" href="https://webmention.io/justmarkup.com/xmlrpc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="justmarkup">
+    <meta name="Description" content="justmarkup is the site of Michael Scharnagl, a front-end developer living in Berlin.">
+    
+      <meta name="author" content="Michael Scharnagl">
+      <meta name="robots" content="index,follow">
+      <meta property="og:type" content="article">
+      <meta property="article:author" content="Michael Scharnagl">
+      <meta name="twitter:card" content="summary">
+      
+      
+      <meta name="twitter:site" content="@justmarkup">
+      <meta name="twitter:site:id" content="20070025">
+      <meta name="twitter:creator" content="@justmarkup">
+      <meta name="twitter:creator:id" content="20070025">
+      <meta name="twitter:url" property="og:url" content="/articles/2018-05-31-https-valid-certificate-local-domain/">
+      <meta name="twitter:title" property="og:title" content="Setting up https with a valid certificate for a local domain – and use it with Node.js">
+      <meta name="twitter:description" property="og:description" content="justmarkup is the site of Michael Scharnagl, a front-end developer living in Berlin.">
+    
+    
+    <style>:root{background-color:#fff;color:#111}*{box-sizing:border-box;color:inherit}::after,::before{box-sizing:inherit}@media screen and (prefers-reduced-motion:reduce){*,:after,:before{transition:none!important;animation:none!important}}html{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%23c9d1cb' fill-opacity='0.16'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E");background-attachment:fixed}h1,h2,h3,h4,h5{font-family:Cambria,Cochin,Georgia,Times,'Times New Roman',serif}body,html{height:100%;margin:0}main{margin:40px auto;max-width:800px;min-height:80vh;padding:0 14px;min-height:calc(100vh - 240px)}img,video{max-width:100%;height:auto}[hidden]{display:none!important}li,p,time{font-size:1.2rem}blockquote{border-left:6px solid #089b52;margin:0;padding:0 0 0 16px}pre{background:rgba(18,27,23,.9);color:#fff;padding:20px;width:100vw;max-width:1000px;margin-left:-100px;position:relative;overflow-x:auto;font-size:1.1em;line-height:1.3;text-align:left}pre mark{color:#111}@media all and (max-width:900px){pre{padding:14px;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}}::-moz-selection{color:#111;background:#089b52}::selection{color:#111;background:#089b52}.permalink{text-decoration:none;color:#089b52}.permalink:focus,.permalink:hover{background:#089b52;color:#000}.logo{margin:20px auto 0 auto;display:block;height:90px;width:110px}.logo polyline{transition:all .2s}.logo:focus polyline,.logo:hover polyline{transform:rotate(-172deg);transform-origin:center center}.logo:focus{outline:0}.nav{margin:0;padding:1em 0 0 0;list-style:none;text-align:center}.nav__item{display:inline-block}.nav__link{font-size:1.2rem;padding:.4em .8em;display:inline-block;transition:all 240ms ease-out;text-decoration:none;position:relative;overflow:hidden}.nav__link:after{content:"";position:absolute;left:0;right:0;bottom:0;top:0;background-color:#089b52;transition:all 240ms ease-out;transform:translateY(-100%);z-index:-1}.nav__link:focus:after,.nav__link:hover:after{transform:translateY(0)}.nav__link:focus,.nav__link:hover{color:#fff;outline:0}.nav__item--active .nav__link{border-bottom:2px solid #089b52}footer{background:rgba(18,27,23,.9);color:#fff;padding:40px 20px;text-align:center;margin:140px 0 0 0;font-size:1.2em;position:relative}footer time{font-size:1em}footer a:focus,footer a:hover{outline:0;background:#fff;color:#111}footer:before{content:"Congrats! You reached the end of the page.";content:"<footer>";position:absolute;top:-32px;color:rgba(18,27,23,.9);text-align:center;left:0;right:0;font-weight:700;font-size:1.5em}.page--article{overflow-x:hidden;overflow-y:auto}.page--article h1{margin:0;padding:40px 0 0 0;position:relative;font-size:2.6em;color:#555}.page--article h2{font-size:1.8em}.page--article h3{font-size:1.6em}.page--article h1:after{content:"";background:#089b52;width:80vw;height:4px;display:block}.page--article .article__content li,.page--article .article__content p{font-size:1.3em;line-height:1.4}.page--article .article__content img{padding:0 20px;width:1000px;max-width:100%;margin-left:-100px;position:relative}@media all and (max-width:900px){.page--article .article__content img{padding:14px;width:100vw;max-width:100%;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}}.page--article .article__content a:focus,.page--article .article__content a:hover{outline:0;background:#089b52}.article__date{display:block;padding:.3em 0}.teaser{margin:0;padding:0 0 40px 0;list-style:none}.teaser__item{margin-bottom:1em}.teaser__title{font-size:1.6rem;font-family:Cambria,Cochin,Georgia,Times,'Times New Roman',serif;text-decoration:none;border-bottom:1px solid;position:relative;display:inline-block;overflow:hidden;padding:.1em}.teaser__title:after{content:"";position:absolute;left:0;right:0;bottom:0;top:0;background-color:#089b52;transition:all 240ms ease-out;transform:translateX(-100%);z-index:-1}.teaser__title:focus:after,.teaser__title:hover:after{transform:translateX(0)}.teaser__title:focus,.teaser__title:hover{outline:0;border-color:transparent}.teaser__item:first-of-type .teaser__title{font-size:2rem}.teaser__date{display:block}.archivetext{text-align:center;font-size:1.4em}.archivetext a:focus,.archivetext a:hover{outline:0;background-color:#089b52}code[class*=language-],pre[class*=language-]{font-family:Inconsolata,Monaco,Consolas,'Courier New',Courier,monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#b2b1b1}.token.punctuation{color:#c5c8c6}.namespace{opacity:.7}.token.keyword,.token.property,.token.tag{color:#96cbfe}.token.class-name{color:#ffffb6;text-decoration:underline}.token.boolean,.token.constant{color:#9c9}.token.deleted,.token.symbol{color:#f92672}.token.number{color:#ff73fd}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#a8ff60}.token.variable{color:#c6c5fe}.token.operator{color:#ededed}.token.entity{color:#ffffb6}.token.url{color:#96cbfe}.language-css .token.string,.style .token.string{color:#87c38a}.token.atrule,.token.attr-value{color:#f9ee98}.token.function{color:#dad085}.token.regex{color:#e9c062}.token.important{color:#fd971f}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}#carbonads,.feediary{display:block;overflow:hidden;padding:10px;font-family:Verdana,"Helvetica Neue",Helvetica,sans-serif;line-height:1.5;width:130px;width:calc(130px + 2em);float:right;background:#eee;margin-left:20px;margin-bottom:20px}.feediary a{text-decoration:none}.feediary img{max-width:100px}.feediary .trynow{background:#d83d7b;color:#fff;border-color:#d83d7b;padding:8px 12px;display:flex;justify-content:center;margin:10px 0 0 0}.feediary .trynow:focus,.feediary .trynow:hover{color:#fff;background:#f3458b;border-color:#f3458b}.feediary h2{font-family:Verdana,"Helvetica Neue",Helvetica,sans-serif;font-size:1.2em;margin:4px 0 8px 0;line-height:1.3}.feediary p{font-family:Verdana,"Helvetica Neue",Helvetica,sans-serif;font-size:1em;margin:0}#carbonads span{display:block;overflow:hidden}.carbon-img{display:block;margin:0 auto 5px;text-align:center}.carbon-text{display:block;margin-bottom:15px;text-align:left;color:#222;font-size:16px;text-decoration:none;font-family:Verdana,"Helvetica Neue",Helvetica,sans-serif;transition:all .3s}.carbon-text:hover{color:#000}.carbon-poweredby{display:block;text-align:right;font-size:13px;color:#444;text-decoration:none;font-family:Verdana,"Helvetica Neue",Helvetica,sans-serif}.carbon-poweredby:hover{color:#222}@media all and (max-width:500px){#carbonads,#feediary{width:auto;margin-left:0;margin-top:20px}.carbon-img{float:left;margin-right:10px;margin-bottom:0}.carbon-text{font-size:14px}}@media all and (min-width:1200px){#carbonads,#feediary{margin-right:-200px}}.carbon-text{font-size:12px}a.carbon-poweredby{font-size:10px}#carbonads a{padding:.2em}#carbonads a:focus,#carbonads a:hover{outline:0;background:#fff}.icon{stroke:currentColor;width:1rem;height:1rem;fill:none}.about__img{border-radius:50%;margin:20px auto 40px auto;display:block}.hireme{border:8px solid #089b52;padding:0 20px 20px 20px;margin:40px auto}.skiplink{background:#089b52;padding:1em;display:inline-block;color:#fff;position:absolute;top:0;outline:0}.skiplink:not(:focus):not(:active){clip:rect(0 0 0 0)!important;clip-path:inset(100%)!important;height:1px!important;opacity:0!important;overflow:hidden!important;position:absolute!important;white-space:nowrap;width:1px!important}[tabindex="-1"]:focus{outline:2px solid #089b52}.backtotop{float:right;padding:10px;font-size:1.3em;text-decoration:none;border-bottom:1px solid #111}.backtotop:focus,.backtotop:hover{outline:0;background:#089b55;color:#fff;text-decoration:none}.backtotop .icon{fill:#111;stroke:#111}.backtotop:focus .icon,.backtotop:hover .icon{fill:#fff;stroke:#fff}.shareit{background:#089b55;color:#fff;text-decoration:none;border:2px solid #089b55;transition:all 240ms ease-out;padding:10px;margin-top:20px;font-size:1.2em;display:inline-block}.shareit:focus,.shareit:hover{outline:0;background:0 0;color:#111}.webmentions{padding-top:20px}.webmentions__list{margin:0;padding:0}.webmentions__item{list-style:none;padding:10px 0;margin-bottom:20px;border-bottom:2px dotted #999}.webmention__author{display:flex;align-items:center}.webmention__author__photo{width:60px;border-radius:10px;border-radius:10px 60px 10px/20px 10px 30px;margin-right:10px}.webmention__pubdate{display:block;padding:6px 0;font-size:.9em}.infobox{background:#eee;padding:12px;margin:30px 0 20px 0;background:linear-gradient(to right,#089b52,#292e49);color:#fff}</style>
+    <link rel="alternate" href="https://justmarkup.com/feed/feed.xml" type="application/rss+xml" title="justmarkup">
+    <script type="text/javascript" async="" defer="" src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/piwik.js.stažený soubor"></script><script defer="" src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/main.js.stažený soubor"></script>
+  <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script><script id="_carbonads_projs" type="text/javascript" src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/CKYILK7M.json"></script></head>
+  <body class="page--article">
+    <a href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#main" id="skiplink" class="skiplink">Skip to main content</a>
+    <header id="header">
+      <a class="logo" href="https://justmarkup.com/">
+        <svg width="120" height="90" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title">
+        <title id="title">justmarkup</title>
+        <g>
+          <g id="text">
+          <g>
+            <path d="m30.25079,25.380058h2.677387v18.570969c0,0.848572 -0.032722,1.79636 -0.066769,2.383713c-0.063839,1.075493 -0.326397,1.954918 -0.750416,2.740963c-0.717964,1.271271 -2.05599,2.282909 -3.786922,2.871849l-1.303978,-1.662819c1.206089,-0.489464 2.219059,-1.306652 2.675802,-2.187935c0.424276,-0.75042 0.554895,-1.796116 0.554895,-4.078999v-18.637741l0,0l0,0z" fill="#00CC66"></path>
+            <path d="m38.377926,25.380058h2.64175v14.328636c0,1.53249 0.097889,2.805084 0.2285,3.428062c0.391563,1.762058 2.02301,2.741249 4.537331,2.741249c1.859947,0 3.263153,-0.489727 3.948654,-1.4048c0.686577,-0.91214 0.848312,-1.729591 0.848312,-3.818047v-15.27351h2.643337v15.568787c0,3.19796 -0.326385,4.276104 -1.69688,5.480602c-1.370747,1.176296 -3.166851,1.729591 -5.875359,1.729591c-3.459202,0 -5.581696,-1.109528 -6.626053,-3.230694c-0.489456,-0.978909 -0.651196,-1.437252 -0.651196,-3.917263v-15.632614l0.001602,0l0,0z" fill="#00CC66"></path>
+            <path d="m71.468781,27.045818l-1.178413,1.924042c-2.146431,-1.401867 -3.520119,-1.891331 -5.447891,-1.891331c-2.809864,0 -4.472157,1.401888 -4.472157,3.687181c0,1.793421 1.077072,2.839384 3.722805,3.656569l2.575775,0.814781c1.990295,0.619797 3.067368,1.207413 3.949188,2.253906c0.913208,1.042759 1.467316,2.544655 1.467316,3.948647c0,2.088455 -1.139587,4.048409 -3.09848,5.386181c-1.467331,0.945137 -2.966019,1.370483 -5.026272,1.370483c-2.677124,0 -4.964005,-0.654121 -7.180676,-2.024605l1.170975,-2.088696c1.865269,1.337746 3.753937,1.926956 6.009701,1.926956c1.701397,0 2.606632,-0.261223 3.558941,-0.979439c1.077087,-0.817184 1.600052,-1.891068 1.600052,-3.197716c0,-1.990017 -1.311165,-3.361294 -4.019669,-4.176888l-2.247791,-0.690834c-2.021412,-0.62059 -3.098484,-1.07547 -3.980309,-1.991074c-0.913208,-0.978661 -1.405056,-2.218788 -1.405056,-3.656591c0,-3.817228 2.9035,-6.428123 7.242912,-6.428123c2.419632,0.001589 4.636292,0.719034 6.759048,2.156549l0,0l0,0z" fill="#00CC66"></path>
+            <path d="m74.50061,25.380146h14.81665l-0.16172,2.25161h-6.071045v20.137318h-2.578064v-20.137318h-6.005821v-2.25161l0,0z" fill="#00CC66"></path>
+          </g>
+          <g>
+            <path d="m27.316776,55.506214h3.207825l1.615612,6.165844c0.226334,0.887421 0.32,1.241779 0.421471,1.879402c0.124866,-0.637623 0.249733,-1.204277 0.44487,-1.932457l1.662415,-6.112789h3.246815l1.100471,12.315296h-2.442883l-0.468327,-6.573231c-0.04681,-0.780479 -0.101467,-1.313545 -0.101467,-1.967598c-0.140472,0.709427 -0.234138,1.063786 -0.444881,1.80835l-1.951206,6.732479h-2.177544l-1.756084,-6.46706c-0.156065,-0.601799 -0.491728,-2.144821 -0.491728,-2.144821c0,0.726654 -0.039005,1.419712 -0.093615,2.182259l-0.421471,6.431171h-2.497545l1.147272,-12.316845l0,0z" fill="#00CC66"></path>
+            <path d="m43.504211,55.470322h2.676857l3.878952,12.35112h-2.653446l-0.874371,-2.923729h-3.613487l-0.866398,2.923729h-2.583485l4.035378,-12.35112l0,0l0,0zm0.015427,7.370079h2.411644c0,0 -0.405655,-1.291744 -0.671143,-2.479481c-0.124756,-0.56818 -0.491585,-2.180756 -0.491585,-2.180756s-0.359116,1.452427 -0.585484,2.374943c-0.234097,0.886608 -0.39024,1.4729 -0.663433,2.285294l0,0z" fill="#00CC66"></path>
+            <path d="m50.887589,55.488411l4.589203,0.017822c2.185272,0 3.621464,1.45163 3.621464,3.615887c0,1.842125 -1.225506,3.367146 -2.747356,3.40147c0.249779,0.195774 0.351135,0.300598 0.514996,0.514465c0.710255,0.887402 2.958031,4.784981 2.958031,4.784981h-2.926636c-0.476154,-0.813988 -0.671413,-1.149681 -1.147305,-2.018219c-1.225506,-2.216671 -1.615746,-2.802147 -2.037106,-3.012829c-0.125023,-0.053738 -0.202965,-0.088856 -0.39024,-0.106922v5.13958h-2.435051v-12.336235l0,0l0,0l0,0zm2.450478,2.002537l-0.023411,3.331234h0.835278c1.061378,0 1.521843,-0.106922 1.865269,-0.408318c0.296593,-0.281696 0.476158,-0.724888 0.476158,-1.239353c0,-0.762367 -0.304325,-1.274448 -0.889809,-1.507198c-0.280899,-0.105354 -0.796173,-0.176365 -1.397087,-0.176365h-0.866398l0,0l0,0l0,0z" fill="#00CC66"></path>
+            <path d="m61.127396,55.506214h2.536617v5.617188l3.504353,-5.617188h3.051689l-3.933632,5.706131l4.378502,6.609936h-3.262421l-3.738491,-6.431942v6.431942h-2.536617v-12.316067l0,0l0,0z" fill="#00CC66"></path>
+            <path d="m71.624924,55.506214h2.53656v8.096798c0,0.923271 0.031258,1.136383 0.210732,1.471992c0.288795,0.550201 0.874138,0.851509 1.685883,0.851509c1.084862,0 1.771675,-0.533112 1.880943,-1.437691c0.031265,-0.265327 0.031265,-0.443321 0.031265,-1.097359v-7.88525h2.52095v8.294254c0,1.169136 -0.015602,1.398621 -0.195129,1.931679c-0.320007,0.974075 -1.521942,2.321182 -4.183426,2.321182c-1.880951,0 -3.246826,-0.568199 -3.949234,-1.647644c-0.405869,-0.638397 -0.530731,-1.136383 -0.530731,-2.321884v-8.577587l-0.007813,0l0,0z" fill="#00CC66"></path>
+            <path d="m82.629745,55.470367h3.239014c2.091736,0 2.731743,0.213821 3.426353,0.602482c1.147339,0.639233 1.771683,1.770981 1.771683,3.19067c0,1.629604 -0.780479,2.975174 -2.130684,3.614407c-0.569801,0.26535 -1.100471,0.406639 -2.466347,0.406639h-1.365875v4.536945h-2.474144v-12.351143l0,0l0,0zm2.481934,2.002712v3.792339h1.287811c1.014679,0 1.311218,-0.124107 1.646812,-0.637623c0.218536,-0.337994 0.304398,-0.726654 0.304398,-1.312771c0,-1.151249 -0.624336,-1.841946 -1.662399,-1.841946h-1.576622l0,0l0,0z" fill="#00CC66"></path>
+          </g>
+          <polyline id="poly-left" points="14.154014587402344,41.89519500732422 14.154014587402344,9.538511276245117 46.51069259643555,9.538511276245117 " stroke="#00CC66" fill="none"></polyline>
+          <polyline id="poly-right" points="105.845703125,48.104305267333984 105.845703125,80.46099853515625 73.48605346679688,80.46099853515625 " stroke="#00CC66" fill="none"></polyline>
+          </g>
+        </g>
+        </svg>
+      </a>
+      <nav>
+        <ul class="nav"><li class="nav__item">
+            <a class="nav__link" href="https://justmarkup.com/archive/">Articles</a>
+          </li><li class="nav__item">
+            <a class="nav__link" href="https://justmarkup.com/note/">Notes</a>
+          </li><li class="nav__item">
+            <a class="nav__link" href="https://justmarkup.com/about/">About</a>
+          </li><li class="nav__item">
+            <a class="nav__link" href="https://justmarkup.com/contact/">Contact</a>
+          </li><li class="nav__item">
+            <a class="nav__link" href="https://justmarkup.com/feed/feed.xml" target="_blank">
+              RSS feed 
+              <svg aria-hidden="true" class="icon" viewBox="0 0 32 32">
+                <circle cx="5" cy="27" r="5" fill="currentColor" stroke="none"></circle>
+                <circle cx="0" cy="32" r="18" stroke-width="7"></circle>
+                <circle cx="0" cy="32" r="28" stroke-width="7"></circle>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <article class="h-entry" itemscope="" itemtype="https://schema.org/BlogPosting">
+    <h1 class="p-name" itemprop="title">Setting up https with a valid certificate for a local domain – and use it with Node.js</h1>
+    <time itemprop="dateCreated pubdate datePublished" class="article__date dt-published" datetime="Thu May 31 2018 08:36:19 GMT+0200 (GMT+02:00)">May 31, 2018</time>
+
+    <div id="carbon_wrapper"><script async="" src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/carbon.js.stažený soubor" id="_carbonads_js"></script><div id="carbonads"><span><span class="carbon-wrap"><a href="https://srv.carbonads.net/ads/click/x/GTND42QYCK7D5K37C6YLYKQMFT7DE2JJCY7ITZ3JCWAD653UFTBDVK3KC6BIEK7LCYBIKK3EHJNCLSIZ?segment=placement:justmarkupcom;" class="carbon-img" target="_blank" rel="noopener sponsored"><img src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/1579099495-Kobiton_-_product_screenshot.png" alt="ads via Carbon" border="0" style="max-width: 130px;"></a><a href="https://srv.carbonads.net/ads/click/x/GTND42QYCK7D5K37C6YLYKQMFT7DE2JJCY7ITZ3JCWAD653UFTBDVK3KC6BIEK7LCYBIKK3EHJNCLSIZ?segment=placement:justmarkupcom;" class="carbon-text" target="_blank" rel="noopener sponsored">Smooth, lightning fast, super flexible. Welcome to the future of mobile testing.</a></span><a href="http://carbonads.net/?utm_source=justmarkupcom&amp;utm_medium=ad_via_link&amp;utm_campaign=in_unit&amp;utm_term=carbon" class="carbon-poweredby" target="_blank" rel="noopener sponsored">ads via Carbon</a></span></div></div>
+
+    <div class="article__content e-content">
+        <p>Many new web platform features require a connection via https nowadays. So if you want to use and test Service Worker, you need a domain which runs on https and has a valid SSL certificate. If you have a public domain (like .com or .party), your hosting company most likely offers SSL certificates (often free now thanks to <a href="https://letsencrypt.org/">Let’s Encrypt</a>), which are also easy to install in most cases. But, if you develop, you don’t use a public domain. You can either use <a href="http://localhost/">http://localhost</a> or you can use a local domain (e.g. justmarkup.localhost). If you use localhost you can still test Service Worker, as browsers have whitelisted this, but if you use <a href="http://justmarkup.localhost/">http://justmarkup.localhost</a> it won’t work.</p>
+<p>You should use .localhost, .test, .example or .invalid for your local domain as they are save to use. Others like .dev used to work fine until some <a href="https://medium.engineering/use-a-dev-domain-not-anymore-95219778e6fd">time ago</a> and this may happen to others too, so you should stick to the <a href="https://tools.ietf.org/html/rfc2606">Reserved Top Level DNS Names</a>.</p>
+<p>Often localhost is fine for developing, but if you need a subdomain or if your CMS requires you to use a top-level domain‚ you need to set up a valid SSL certificate for this domain. In this article, I will explain how to set up a local domain, how to set up Node.js and a https server, how to configure an OpenSSL certificate and how to ensure browsers consider it as a valid cerfificate.</p>
+<p><img src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/https.png" alt="Screenshot showing justmarkup.localhost running on https with the green secure mark"></p>
+<h2 id="setting-up-the-domain">Setting up the domain <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#setting-up-the-domain" aria-hidden="true">#</a></h2>
+<p>If you already know how to do this, jump straight to <a href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#setupcertificate">Setting up a certificate</a>. If not, you first have to edit your hosts file. On MacOS and Linux you can find this file at /etc/hosts and on Windows it can be found at [SystemRoot]\system32\drivers\etc\hosts (if you are using the Linux subsystem it is here: /mnt/c/Windows/System32/drivers/etc/hosts). Open the hosts file and add the following at the end.</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line">127.0.0.1 justmarkup.localhost</span></code></pre>
+<p>Replace justmarkup.localhost with your domain of choice.</p>
+<p>With this in place we can move on and get our SSL certificate.</p>
+<h2 id="setting-up-and-installing-a-certificate">Setting up and installing a certificate <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#setting-up-and-installing-a-certificate" aria-hidden="true">#</a></h2>
+<p>First create a new folder called cert in your project folder. This is where we will save our certificates and keys. If you plan to use git for the project, I recommend adding the cert folder to your <a href="https://git-scm.com/docs/gitignore">.gitignore</a> file.</p>
+<h3 id="create-the-root.cnf">Create the root.cnf <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#create-the-root.cnf" aria-hidden="true">#</a></h3>
+<p>Okay, so first create the file root.cnf with the following content and save it in the cert folder.</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token comment"># OpenSSL configuration for Root CA</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> req <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">prompt             <span class="token operator">=</span> no</span><br><span class="highlight-line">string_mask        <span class="token operator">=</span> default</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment"># The size of the keys in bits:</span></span><br><span class="highlight-line">default_bits       <span class="token operator">=</span> 2048</span><br><span class="highlight-line">distinguished_name <span class="token operator">=</span> req_distinguished_name</span><br><span class="highlight-line">x509_extensions    <span class="token operator">=</span> x509_ext</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> req_distinguished_name <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment"># Note that the following are in 'reverse order' to what you'd expect to see.</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">countryName <span class="token operator">=</span> gb</span><br><span class="highlight-line">organizationName <span class="token operator">=</span> Test</span><br><span class="highlight-line">commonName <span class="token operator">=</span> Test Root CA</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> x509_ext <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">basicConstraints<span class="token operator">=</span>critical,CA:true,pathlen:0</span><br><span class="highlight-line">keyUsage<span class="token operator">=</span>critical,keyCertSign,cRLSign</span></code></pre>
+<p>You should replace organizationName and commonName with something related to your project and something you will remember lately.</p>
+<p>Next switch to the command line and go into your cert folder you created before and run:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line">openssl req -x509 -new -keyout root.key -out root.cer -config root.cnf</span></code></pre>
+<p>The script will ask for a PEM pass phrase – enter something – it should be secure and you should remember it.</p>
+<h3 id="create-the-server.cnf">Create the server.cnf <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#create-the-server.cnf" aria-hidden="true">#</a></h3>
+<p>Next, create a file called server.cnf with the following content in the certs folder:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token comment"># OpenSSL configuration for end-entity cert</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> req <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">prompt             <span class="token operator">=</span> no</span><br><span class="highlight-line">string_mask        <span class="token operator">=</span> default</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment"># The size of the keys in bits:</span></span><br><span class="highlight-line">default_bits       <span class="token operator">=</span> 2048</span><br><span class="highlight-line">distinguished_name <span class="token operator">=</span> req_distinguished_name</span><br><span class="highlight-line"></span><br><span class="highlight-line">x509_extensions    <span class="token operator">=</span> x509_ext</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> req_distinguished_name <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment"># Note that the following are in 'reverse order' to what you'd expect to see.</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">countryName <span class="token operator">=</span> gb</span><br><span class="highlight-line">organizationName <span class="token operator">=</span> Test</span><br><span class="highlight-line">commonName <span class="token operator">=</span> localhost</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token punctuation">[</span> x509_ext <span class="token punctuation">]</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">keyUsage<span class="token operator">=</span>critical,digitalSignature,keyAgreement</span><br><span class="highlight-line"></span><br><span class="highlight-line">subjectAltName <span class="token operator">=</span> @alt_names</span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment"># Multiple Alternate Names are possible</span></span><br><span class="highlight-line"><span class="token punctuation">[</span>alt_names<span class="token punctuation">]</span></span><br><span class="highlight-line">DNS.1 <span class="token operator">=</span> justmarkup.localhost</span><br><span class="highlight-line">DNS.2 <span class="token operator">=</span> justmarkup.test</span></code></pre>
+<p>You have to change the following things here. First, change organizationName to the same name you have set in your root.cnf. Next, change DNS.1 to your local domain name. You can also use multiple here by using DNS.2, DNS.3 and so on.</p>
+<p>After saving the file, open your command line again and run the following:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line">openssl req -nodes -new -keyout server.key -out server.csr -config server.cnf</span></code></pre>
+<h3 id="generate-the-certificate">Generate the certificate <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#generate-the-certificate" aria-hidden="true">#</a></h3>
+<p>Stay in the command line and run the following next:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line">openssl x509 -days 3650 -req -in server.csr -CA root.cer -CAkey root.key -set_serial 123 -out server.cer -extfile server.cnf -extensions x509_ext</span></code></pre>
+<p>Here you are required to enter the pass phrase you entered before, I hope you still remember it. Otherwise, you sadly have to start again.</p>
+<p>Great, we now have an SSL certificate valid for ten years.</p>
+<h2 id="setting-up-node.js-and-a-https-server">Setting up Node.js and a HTTPS server <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#setting-up-node.js-and-a-https-server" aria-hidden="true">#</a></h2>
+<p>If you haven’t installed npm and node yet, you should do now to follow along. Here are instructions for <a href="https://nodesource.com/blog/installing-nodejs-tutorial-mac-os-x/">MacOS</a>, <a href="https://www.ostechnix.com/install-node-js-linux/">Linux</a>, <a href="http://blog.teamtreehouse.com/install-node-js-npm-windows">Windows</a> and <a href="https://daverupert.com/2018/04/developing-on-windows-with-wsl-and-visual-studio-code/#installing-node">Linux subystem on Windows</a>.</p>
+<p>So, now we have npm and node installed we first have to init the project. Open your command line and move to your projects folder and init npm with:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token function">npm</span> init</span></code></pre>
+<p>This will create a package.json file. Next, we need to install express.</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token function">npm</span> i express -g --save</span></code></pre>
+<p>This will add express as a dependency to our project. Now open your index.js (The entry point you selected before when using npm init – it is index.js by default if you didn’t select another one before) and add the following:</p>
+<pre class="language-js"><code class="language-js"><span class="highlight-line"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token keyword">const</span> https <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'https'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">const</span> sslOptions <span class="token operator">=</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    key<span class="token punctuation">:</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"./cert/server.key"</span><span class="token punctuation">)</span><span class="token punctuation">,</span></span><br><span class="highlight-line">    cert<span class="token punctuation">:</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"./cert/server.cer"</span><span class="token punctuation">)</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">https<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span>sslOptions<span class="token punctuation">,</span> app<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3001</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Hello SSL!'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></code></pre>
+<p>Now go back to your command line and run:</p>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line">node index.js</span></code></pre>
+<p>If you now open <a href="https://justmarkup.localhost:3001/">https://justmarkup.localhost:3001</a> (replace justmarkup.localhost with the name of your local domain) in your browser you should see “Hello SSL!”. There is still one problem, while we can serve the local domain now via https it is still considered invalid by browsers, so let’s change this.</p>
+<h2 id="install-the-certificate-authority">Install the Certificate Authority <a class="permalink" href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#install-the-certificate-authority" aria-hidden="true">#</a></h2>
+<p>On every OS there are different ways, how to install the Certificate Authority. Please see this <a href="https://www.dionysopoulos.me/255-forge-your-own-ssl-certificates-for-local-development.html#Install_the_Certificate_Authority_529">post</a> to find out how to install it on your OS. Note that for Firefox you need an additional installation as they use their own certificate authority store.</p>
+<p>In all cases you need to install the root.cer and not the server.cer – took me some time to figure this out.</p>
+<p>After installing it and restarting the browser, the ceritificate is now valid and you can test everything related to https on your local machine. 🎉</p>
+<p><img src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/https.png" alt="Screenshot showing justmarkup.localhost running on https with the green secure mark"></p>
+<p>Note: I got most of the information from <a href="https://unix.stackexchange.com/questions/382786/the-correct-way-of-implementing-ssl-on-localhost/382811#382811">this post on stackexchange</a> and this <a href="https://www.dionysopoulos.me/255-forge-your-own-ssl-certificates-for-local-development.html#Install_the_Certificate_Authority_529">post</a>. Thanks a lot for providing the information and giving me the starting point for this article.</p>
+<p>Update 07.02.2018: Updated the example and included the -days option as mentioned by <a href="https://twitter.com/josh_walcher">Josh Walcher</a>. Using this with a value of 3650 means you don’t have to renew the certificate every month as it will be valid for 10 years.</p>
+
+    </div>
+</article>
+
+<p class="infobox">
+If you like this article, please consider visiting my <a href="https://www.amazon.de/hz/wishlist/ls/387AXVVEHH084">Amazon Wishlist</a> or donating via <a href="https://paypal.me/justmarkup">PayPal</a> to show your support. You can even buy me a <a href="https://www.buymeacoffee.com/justmarkup">coffee</a>! 
+</p>
+
+<web-share-wrapper>
+<a href="https://twitter.com/intent/tweet?text=Setting%20up%20https%20with%20a%20valid%20certificate%20for%20a%20local%20domain%20%E2%80%93%20and%20use%20it%20with%20Node.js&amp;url=https://justmarkup.com//articles/2018-05-31-https-valid-certificate-local-domain/" class="shareit">Share on Twitter</a>
+</web-share-wrapper>
+
+<script type="module" defer="" src="./Setting up https with a valid certificate for a local domain – and use it with Node.js_files/webshare.js.stažený soubor"></script>
+
+
+
+
+
+<script>
+var doNotTrack = (navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1" || window.doNotTrack === "1");
+if (!doNotTrack) {
+    var adScript = document.createElement('script');
+    adScript.async = true;
+    adScript.src = 'https://cdn.carbonads.com/carbon.js?serve=CKYILK7M&placement=justmarkupcom';
+    adScript.id = '_carbonads_js';
+    document.getElementById('carbon_wrapper').appendChild(adScript);
+}
+</script>
+    </main>
+
+    <a href="https://justmarkup.com/articles/2018-05-31-https-valid-certificate-local-domain/#header" class="backtotop">
+      Back to top
+      <svg aria-hidden="true" class="icon" viewBox="0 0 16 16">
+        <polygon points="8,2.8 16,10.7 13.6,13.1 8.1,7.6 2.5,13.2 0,10.7 "></polygon>
+      </svg>
+    </a>
+
+    <footer>
+      <small>
+        Copyright © Michael Scharnagl <time datetime="2020">2020</time>. All rights reserved. <a href="https://twitter.com/justmarkup" rel="me">twitter.com/justmarkup</a> | <a class="footer-nav" href="https://justmarkup.com/legal/">Legal</a> | <a class="footer-nav" href="https://justmarkup.com/privacy/">Privacy Policy</a>
+      </small>
+    </footer>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', {scope: '/'}).then(function() {
+      }, function(error) {
+        console.log('service worker error: ', error);
+      });
+    }
+    </script>
+    <script>
+      var doNotTrack = (navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1" || window.doNotTrack === "1");
+      if (!doNotTrack) {
+        <!-- Piwik -->
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+          var u="//justmarkup.com/piwik/";
+          _paq.push(['setTrackerUrl', u+'piwik.php']);
+          _paq.push(['setSiteId', 1]);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+          g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+      }
+    </script>
+  
+
+</body></html>
